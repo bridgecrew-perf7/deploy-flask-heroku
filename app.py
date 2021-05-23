@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -8,7 +9,7 @@ from security import authenticate, identity
 
 app = Flask(__name__)
 app.secret_key = "Shirya2021"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://vkmahelbqliiia:700f24b2be8ee4f1745177c53f984a47fc6225a517c48c3e41a886425f9832fe@ec2-3-215-57-87.compute-1.amazonaws.com:5432/d6uqbh0nabi5il'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL').replace('postgres:', 'postgresql:')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
 jwt = JWT(app, authenticate, identity)
