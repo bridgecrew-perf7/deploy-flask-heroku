@@ -5,7 +5,6 @@ from resources.user_resource import UserRegistrationResource
 from resources.item_resource import ItemsResource, ItemResource
 from resources.store_resources import StoreResource, StoresResource
 from security import authenticate, identity
-from db import db
 
 app = Flask(__name__)
 app.secret_key = "Shirya2021"
@@ -13,13 +12,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 api = Api(app)
 jwt = JWT(app, authenticate, identity)
-db.init_app(app)
-
-
-@app.before_first_request
-def create_db():
-    db.create_all()
-
 
 api.add_resource(StoreResource, '/store/<string:name>')
 api.add_resource(ItemResource, '/item/<string:name>')
